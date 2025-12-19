@@ -20,12 +20,36 @@ HairHQ helps users better understand their hair type, texture, and styling optio
 
 ## Project Structure
 
+```
 hairhq/
+├── backend/
+│   ├── main.py
+│   ├── info_men.json
+│   └── info_women.json
+│
 ├── frontend/
-└── backend/
+│   ├── css/
+│   │   └── style.css
+│   │
+│   ├── images/
+│   │
+│   ├── men/
+│   │   ├── hairchat.html
+│   │   ├── hairinfo.html
+│   │   ├── hairplan.html
+│   │   └── hairprofile.html
+│   │
+│   └── women/
+│       ├── hairchat.html
+│       ├── hairinfo.html
+│       ├── hairplan.html
+│       └── hairprofile.html
+│
+├── .gitignore
+└── README.md
+```
 
-yaml
-Copy code
+
 
 ---
 
