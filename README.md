@@ -1,57 +1,45 @@
-# HairHQ
+# 💇🏽‍♀️ HairHQ – AI Hair Information & Styling Assistant
 
-HairHQ is a web application that provides hair information and styling assistance using a frontend and backend setup.
+HairHQ is a web-based application that educates users about hair care and provides helpful, personalized style tips using AI-powered responses.
+
+---
+
+## Overview
+
+HairHQ helps users better understand their hair type, texture, and styling options through clear explanations and general guidance. It is designed as an educational tool and does not replace professional advice.
+
+---
+
+## Tech Stack
+
+- **Backend:** Python, FastAPI, Uvicorn  
+- **Frontend:** HTML, CSS, JavaScript  
+- **AI:** OpenAI API  
+
+---
 
 ## Project Structure
-frontend/ – user interface (HTML/CSS/JS)
-backend/ – FastAPI backend
 
-markdown
-Copy code
-
-## Run Locally
-
-### Backend Setup
-1. Open a terminal in the project root.
-2. Navigate to the backend folder:
-```bash
-cd backend
-(Recommended) Create and activate a virtual environment:
-
-bash
-Copy code
-python -m venv venv
-source venv/bin/activate   # macOS/Linux
-# venv\Scripts\activate    # Windows
-Install dependencies:
-
-bash
-Copy code
-pip install -r requirements.txt
-Create a .env file in the backend folder and add your API key:
-
-ini
-Copy code
-OPENAI_API_KEY=your_api_key_here
-Run the backend server:
-
-bash
-Copy code
-uvicorn main:app --reload
-The API will run at:
-
-cpp
-Copy code
-http://127.0.0.1:8000
-Frontend Setup
-Open the frontend folder using VS Code Live Server (recommended) or another local web server.
-
-Notes
-This repository does not include API keys.
-
-.env files should never be committed to GitHub.
-
-Virtual environment folders (venv/) are intentionally excluded.
+hairhq/
+├── frontend/
+└── backend/
 
 yaml
 Copy code
+
+---
+
+## Setup Instructions
+
+All setup steps — including **beginner-friendly OpenAI API key instructions** — are documented in the project Wiki:
+
+👉 **[Go to the HairHQ Setup Guide (Wiki)](../../wiki)**
+
+---
+
+## Notes
+
+- API keys are not included in this repository.
+- Each user must create their own OpenAI API key.
+- Local environment files (such as `.env` and virtual environments) are excluded from version control.
+
