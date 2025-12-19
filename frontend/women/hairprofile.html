@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Create Your Hair Profile</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+</head>
+<body>
+<div class="app-shell">
+
+  <!-- NAV -->
+  <nav>
+    <div class="logo">HairHQ</div>
+
+    <!-- Women / Men store toggle -->
+    <div class="mode-toggle" aria-label="Section toggle">
+      <button class="mode-btn" id="womenBtn" type="button">Women</button>
+      <button class="mode-btn" id="menBtn" type="button">Men</button>
+    </div>
+
+    <!-- Hamburger button -->
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation" type="button">
+      <span></span><span></span><span></span>
+    </button>
+
+    <!-- Dropdown menu -->
+    <div class="nav-links" id="navLinks">
+      <a href="hairinfo.html">Info</a>
+      <a href="hairprofile.html">Hair Profile</a>
+      <a href="hairplan.html">Hair Care Plan</a>
+      <a href="hairchat.html">Style Assist</a>
+    </div>
+  </nav>
+
+  <!-- Center buttons -->
+  <div class="page-buttons">
+    <button type="button" onclick="window.location.href='hairinfo.html'">Info</button>
+    <button type="button" onclick="window.location.href='hairprofile.html'">Hair Profile</button>
+    <button type="button" onclick="window.location.href='hairplan.html'">Hair Care Plan</button>
+    <button type="button" onclick="window.location.href='hairchat.html'">Style Assist</button>
+  </div>
+
+  <!-- Hero -->
+  <section class="hero">
+    <h1>Create Your Hair Profile</h1>
+    <p>Answer these questions so we can build a customized plan and better style suggestions.</p>
+  </section>
+
+  <main>
+    <section class="card">
+      <h2>Quick Survey</h2>
+      <p style="margin-bottom: 10px;">Choose the best options for your hair.</p>
+
+      <form id="surveyForm">
+
+        <!-- HAIR TYPE -->
+        <label for="hairType">
+          Hair Type <span class="help-icon" data-topic="hair_type">?</span>
+        </label>
+        <select id="hairType" name="hairType">
+          <option value="">Select...</option>
+          <option value="1A">1A</option>
+          <option value="1B">1B</option>
+          <option value="1C">1C</option>
+          <option value="2A">2A</option>
+          <option value="2B">2B</option>
+          <option value="2C">2C</option>
+          <option value="3A">3A</option>
+          <option value="3B">3B</option>
+          <option value="3C">3C</option>
+          <option value="4A">4A</option>
+          <option value="4B">4B</option>
+          <option value="4C">4C</option>
+        </select>
+
+        <!-- HAIR LENGTH (NEW) -->
+        <label for="hairLength">
+          Hair Length <span class="help-icon" data-topic="hair_length">?</span>
+        </label>
+        <select id="hairLength" name="hairLength">
+          <option value="">Select...</option>
+          <option value="buzz">Buzz / very short</option>
+          <option value="short">Short</option>
+          <option value="medium">Medium</option>
+          <option value="long">Long</option>
+          <option value="very_long">Very long</option>
+        </select>
+
+        <!-- POROSITY -->
+        <label for="porosity">
+          Porosity <span class="help-icon" data-topic="porosity">?</span>
+        </label>
+        <select id="porosity" name="porosity">
+          <option value="">Select...</option>
+          <option value="low">Low</option>
+          <option value="medium">Medium</option>
+          <option value="high">High</option>
+          <option value="unsure">Not sure</option>
+        </select>
+
+        <!-- DENSITY -->
+        <label for="density">
+          Density <span class="help-icon" data-topic="density">?</span>
+        </label>
+        <select id="density" name="density">
+          <option value="">Select...</option>
+          <option value="low">Low</option>
+          <option value="medium">Medium</option>
+          <option value="high">High</option>
+        </select>
+
+        <!-- STRAND WIDTH -->
+        <label for="strandWidth">
+          Strand Thickness <span class="help-icon" data-topic="strand_width">?</span>
+        </label>
+        <select id="strandWidth" name="strandWidth">
+          <option value="">Select...</option>
+          <option value="fine">Fine</option>
+          <option value="medium">Medium</option>
+          <option value="coarse">Coarse</option>
+        </select>
+
+        <!-- SCALP TYPE -->
+        <label for="scalp">
+          Scalp <span class="help-icon" data-topic="scalp">?</span>
+        </label>
+        <select id="scalp" name="scalp">
+          <option value="">Select...</option>
+          <option value="dry">Dry</option>
+          <option value="normal">Normal</option>
+          <option value="oily">Oily</option>
+          <option value="sensitive">Sensitive</option>
+        </select>
+
+        <!-- DRYNESS LEVEL -->
+        <label for="dryness">
+          Overall Dryness <span class="help-icon" data-topic="dryness">?</span>
+        </label>
+        <select id="dryness" name="dryness">
+          <option value="">Select...</option>
+          <option value="rarely_dry">Rarely dry</option>
+          <option value="sometimes_dry">Sometimes dry</option>
+          <option value="often_dry">Often dry</option>
+        </select>
+
+        <!-- MAIN ISSUES -->
+        <label>
+          Main Hair Concerns <span class="help-icon" data-topic="issues">?</span>
+          <span style="opacity:.7;">(check all that apply)</span>
+        </label>
+        <div class="checkbox-group" id="issuesGroup">
+          <label><input type="checkbox" name="issues" value="frizz"> Frizz</label>
+          <label><input type="checkbox" name="issues" value="breakage"> Breakage</label>
+          <label><input type="checkbox" name="issues" value="shedding"> Shedding</label>
+          <label><input type="checkbox" name="issues" value="dryness"> Dryness</label>
+          <label><input type="checkbox" name="issues" value="scalp_itch"> Scalp itch</label>
+          <label><input type="checkbox" name="issues" value="shrinkage"> Shrinkage</label>
+          <label><input type="checkbox" name="issues" value="oiliness"> Oiliness</label>
+          <label><input type="checkbox" name="issues" value="flatness"> Flatness / no volume</label>
+        </div>
+
+        <!-- GOALS -->
+        <label>
+          Goals <span class="help-icon" data-topic="goals">?</span>
+          <span style="opacity:.7;">(check all that apply)</span>
+        </label>
+        <div class="checkbox-group" id="goalsGroup">
+          <label><input type="checkbox" name="goals" value="growth"> Growth</label>
+          <label><input type="checkbox" name="goals" value="scalp"> Scalp health</label>
+          <label><input type="checkbox" name="goals" value="moisture"> More moisture</label>
+          <label><input type="checkbox" name="goals" value="definition"> More definition</label>
+          <label><input type="checkbox" name="goals" value="repair"> Repair damage</label>
+          <label><input type="checkbox" name="goals" value="volume"> More volume</label>
+          <label><input type="checkbox" name="goals" value="sleek"> Sleeker / smoother</label>
+        </div>
+
+        <!-- WASH FREQUENCY -->
+        <label for="washFrequency">
+          How often do you wash? <span class="help-icon" data-topic="wash_frequency">?</span>
+        </label>
+        <select id="washFrequency" name="washFrequency">
+          <option value="">Select...</option>
+          <option value="daily">Daily</option>
+          <option value="every_other_day">Every other day</option>
+          <option value="few_days">Every few days</option>
+          <option value="weekly">Weekly</option>
+          <option value="biweekly">Every 2 weeks</option>
+          <option value="monthly">Monthly</option>
+        </select>
+
+        <!-- ROUTINE LEVEL -->
+        <label for="routineLevel">
+          Routine Level <span class="help-icon" data-topic="routine_level">?</span>
+        </label>
+        <select id="routineLevel" name="routineLevel">
+          <option value="quick">Quick / minimal</option>
+          <option value="medium">Medium</option>
+          <option value="detailed">Detailed</option>
+        </select>
+
+        <!-- HEAT USAGE -->
+        <label for="heatUsage">
+          Heat Usage <span class="help-icon" data-topic="heat_usage">?</span>
+        </label>
+        <select id="heatUsage" name="heatUsage">
+          <option value="none">None</option>
+          <option value="rare">Rare</option>
+          <option value="regular">Regular</option>
+        </select>
+
+        <!-- CHEMICALS -->
+        <label for="chemicals">
+          Chemical Treatments <span class="help-icon" data-topic="chemicals">?</span>
+        </label>
+        <select id="chemicals" name="chemicals">
+          <option value="none">None</option>
+          <option value="color">Color-treated</option>
+          <option value="relaxed">Relaxed / chemically straightened</option>
+        </select>
+        </select>
+
+        <!-- NIGHT ROUTINE -->
+        <label for="nightCare">
+          Night Routine <span class="help-icon" data-topic="nighttime_care">?</span>
+        </label>
+        <select id="nightCare" name="nightCare">
+          <option value="none">None</option>
+          <option value="bonnet_or_scarf">Bonnet or scarf</option>
+          <option value="satin_pillowcase">Satin pillowcase</option>
+        </select>
+
+        <!-- EXTRA DETAILS -->
+        <label for="extraDetails">
+          Extra Details (optional) <span class="help-icon" data-topic="extra_details">?</span>
+        </label>
+        <textarea id="extraDetails" name="extraDetails" placeholder="Ex: I wear my hair straight, I sweat a lot, my ends get dry fast..."></textarea>
+
+      
+
+        <button type="submit">Build Profile & Plan</button>
+
+        <!-- RESET BUTTON (ADDED) -->
+        <button type="button" id="resetProfileBtn" style="margin-top:10px;">
+          Reset Profile
+        </button>
+
+      </form>
+    </section>
+  </main>
+</div>
+
+<!-- HELP POPUP -->
+<div id="helpOverlay" class="help-overlay hidden"></div>
+<div id="helpBox" class="help-box hidden">
+  <h3 id="helpTitle"></h3>
+  <p id="helpText"></p>
+  <button id="helpClose" type="button">Close</button>
+</div>
+
+<script>
+  const API_BASE = "http://127.0.0.1:8000";
+
+  // NAV dropdown
+  const navToggle = document.getElementById("navToggle");
+  const navLinks = document.getElementById("navLinks");
+  if (navToggle && navLinks) {
+    navToggle.addEventListener("click", () => navLinks.classList.toggle("open"));
+  }
+
+  function getMode() {
+    const path = window.location.pathname.toLowerCase();
+    if (path.includes("/men/")) return "men";
+    if (path.includes("/women/")) return "women";
+    const stored = (localStorage.getItem("hairMode") || "").toLowerCase();
+    return stored === "men" ? "men" : "women";
+  }
+
+  // MODE toggle
+  const isMen = window.location.pathname.includes("/men/");
+  const womenBtn = document.getElementById("womenBtn");
+  const menBtn = document.getElementById("menBtn");
+
+  if (womenBtn && menBtn) {
+    womenBtn.classList.toggle("active", !isMen);
+    menBtn.classList.toggle("active", isMen);
+
+    womenBtn.onclick = () => {
+      localStorage.setItem("hairMode", "women");
+    };
+
+    menBtn.onclick = () => {
+      localStorage.setItem("hairMode", "men");
+      window.location.href = window.location.href.replace("/women/", "/men/");
+    };
+  }
+
+  // Prefill from saved profile
+  function prefillFromSavedProfile(mode) {
+    const raw = localStorage.getItem(`${mode}_hairProfile`);
+    if (!raw) return;
+
+    let p;
+    try { p = JSON.parse(raw); } catch(e) { return; }
+    if (!p || typeof p !== "object") return;
+
+    const setVal = (id, val) => {
+      const el = document.getElementById(id);
+      if (el && val !== undefined && val !== null) el.value = val;
+    };
+
+    setVal("hairType", p.hair_type);
+    setVal("hairLength", p.hair_length);
+    setVal("porosity", p.porosity);
+    setVal("density", p.density);
+    setVal("strandWidth", p.strand_width);
+    setVal("scalp", p.scalp);
+    setVal("dryness", p.dryness_level);
+    setVal("washFrequency", p.wash_frequency);
+    setVal("routineLevel", p.routine_level);
+    setVal("heatUsage", p.heat_usage);
+    setVal("chemicals", p.chemical_treatments);
+    setVal("nightCare", p.nighttime_care);
+    setVal("curiosity", p.curiosity);
+    setVal("extraDetails", p.extra_details);
+
+    const issues = Array.isArray(p.main_issues) ? p.main_issues : [];
+    document.querySelectorAll('input[name="issues"]').forEach(cb => cb.checked = issues.includes(cb.value));
+
+    const goals = Array.isArray(p.goals) ? p.goals : [];
+    document.querySelectorAll('input[name="goals"]').forEach(cb => cb.checked = goals.includes(cb.value));
+  }
+
+  // HELP TEXT
+  const HELP_CONTENT = {
+    hair_type: { title: "Hair Type", text: "Hair type describes your pattern from straight (Type 1) to coily (Type 4). This helps tailor styling + routines." },
+    hair_length: { title: "Hair Length", text: "This is used heavily for style recommendations (what works for short vs long hair). Pick the closest match." },
+    porosity: { title: "Porosity", text: "Porosity is how easily your hair absorbs and holds moisture. If you’re not sure, choose 'Not sure'." },
+    density: { title: "Density", text: "Density is how much hair you have overall (thin vs thick coverage)." },
+    strand_width: { title: "Strand Thickness", text: "This is how thick each strand is (fine/medium/coarse). It affects frizz and breakage." },
+    scalp: { title: "Scalp", text: "Your scalp type affects how often you cleanse and what products feel comfortable." },
+    dryness: { title: "Dryness", text: "Overall dryness helps adjust moisture + styling suggestions." },
+    issues: { title: "Concerns", text: "Pick what you deal with most often. This helps tailor routines and styling tips." },
+    goals: { title: "Goals", text: "Your goals help choose styles that support what you’re trying to achieve." },
+    wash_frequency: { title: "Wash Frequency", text: "How often you cleanse affects styling suggestions (low-maintenance vs frequent refreshes)." },
+    routine_level: { title: "Routine Level", text: "Choose how much time/effort you realistically want to spend." },
+    heat_usage: { title: "Heat Usage", text: "Heat impacts which styles are safest and how to protect your hair." },
+    chemicals: { title: "Chemical Treatments", text: "Color or chemical straightening affects breakage risk and product choices." },
+    nighttime_care: { title: "Night Routine", text: "Night protection helps your styles last longer and reduces friction/breakage." },
+    extra_details: { title: "Extra Details", text: "Anything unique—workouts, braids, sweating, frequent straightening—helps personalize results." },
+    curiosity: { title: "Explanation Level", text: "If you choose 'Explain' or 'Deep dive' you’ll get more 'why' behind the steps." }
+  };
+
+  document.querySelectorAll(".help-icon").forEach(icon => {
+    icon.addEventListener("click", (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+
+      const topic = icon.getAttribute("data-topic");
+      const content = HELP_CONTENT[topic];
+      if (!content) return;
+
+      document.getElementById("helpTitle").textContent = content.title;
+      document.getElementById("helpText").textContent = content.text;
+
+      document.getElementById("helpOverlay").classList.remove("hidden");
+      document.getElementById("helpBox").classList.remove("hidden");
+    });
+  });
+
+  document.getElementById("helpClose").addEventListener("click", () => {
+    document.getElementById("helpOverlay").classList.add("hidden");
+    document.getElementById("helpBox").classList.add("hidden");
+  });
+
+  // Close when clicking the dimmed overlay
+  document.getElementById("helpOverlay").addEventListener("click", () => {
+    document.getElementById("helpOverlay").classList.add("hidden");
+    document.getElementById("helpBox").classList.add("hidden");
+  });
+
+  // Close on Escape
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") {
+      document.getElementById("helpOverlay").classList.add("hidden");
+      document.getElementById("helpBox").classList.add("hidden");
+    }
+  });
+
+  document.addEventListener("DOMContentLoaded", () => {
+    const mode = getMode();
+    localStorage.setItem("hairMode", mode);
+    prefillFromSavedProfile(mode);
+  });
+
+  // ================================
+  // RESET PROFILE (ADDED)
+  // ================================
+  const resetBtn = document.getElementById("resetProfileBtn");
+  if (resetBtn) {
+    resetBtn.addEventListener("click", () => {
+      const ok = confirm("Reset your hair profile and start over?");
+      if (!ok) return;
+
+      const mode = getMode();
+
+      localStorage.removeItem(`${mode}_hairProfile`);
+      localStorage.removeItem(`${mode}_hairPlan`);
+
+      document.getElementById("surveyForm").reset();
+
+      alert("Profile cleared. You can start fresh.");
+    });
+  }
+
+  // FORM SUBMIT
+  document.getElementById("surveyForm").addEventListener("submit", async (event) => {
+    event.preventDefault();
+
+    const mode = getMode();
+
+    const profile = {
+      mode,
+      source: "survey",
+      hair_type: document.getElementById("hairType").value,
+      hair_length: document.getElementById("hairLength").value,
+      porosity: document.getElementById("porosity").value,
+      density: document.getElementById("density").value,
+      strand_width: document.getElementById("strandWidth").value,
+      scalp: document.getElementById("scalp").value,
+      dryness_level: document.getElementById("dryness").value,
+      main_issues: Array.from(document.querySelectorAll('input[name="issues"]:checked')).map(i => i.value),
+      goals: Array.from(document.querySelectorAll('input[name="goals"]:checked')).map(i => i.value),
+      wash_frequency: document.getElementById("washFrequency").value,
+      routine_level: document.getElementById("routineLevel").value,
+      heat_usage: document.getElementById("heatUsage").value,
+      chemical_treatments: document.getElementById("chemicals").value,
+      nighttime_care: document.getElementById("nightCare").value,
+      curiosity: document.getElementById("curiosity").value,
+      extra_details: document.getElementById("extraDetails").value
+    };
+
+    // Save immediately so answers persist even if AI fails
+    localStorage.setItem(`${mode}_hairProfile`, JSON.stringify(profile));
+    localStorage.setItem("hairMode", mode);
+
+    try {
+      const response = await fetch(API_BASE + "/api/hair-plan", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(profile)
+      });
+
+      const data = await response.json();
+
+      localStorage.setItem(`${mode}_hairPlan`, JSON.stringify(data));
+      localStorage.setItem(`${mode}_hairProfile`, JSON.stringify(profile));
+      localStorage.setItem("hairMode", mode);
+
+      window.location.href = "hairplan.html";
+    } catch (err) {
+      console.error(err);
+      alert("Could not connect to backend.");
+    }
+  });
+</script>
+</body>
+</html>

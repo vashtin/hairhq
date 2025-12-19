@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>HairHQ – Hair Info Hub (Men)</title>
+  <link rel="stylesheet" href="../css/style.css">
+
+  <!-- Men theme override (blue) -->
+  <style>
+    body.men-theme { --accent:#2f6fed; --accent-2:#1f53c9; }
+    body.men-theme { background: radial-gradient(circle at top left, rgba(47,111,237,.18) 0, rgba(240,247,255,.95) 35%, rgba(250,252,255,.98) 60%, rgba(47,111,237,.08) 100%); }
+    body.men-theme .hero { background: linear-gradient(135deg, rgba(47,111,237,.18), rgba(31,83,201,.06)); }
+    body.men-theme .mode-btn.active { background: var(--accent); }
+    body.men-theme nav .logo { color: var(--accent-2); }
+    body.men-theme .category-tile { border: 1px solid rgba(47,111,237,.18); }
+    body.men-theme .category-tile:hover { border-color: rgba(47,111,237,.34); }
+    body.men-theme .back-btn { background: rgba(47,111,237,.14); border-color: rgba(47,111,237,.25); }
+
+    .muted { opacity:.8; }
+    .category-grid { display:grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap:12px; margin-top:14px; }
+    @media (max-width: 900px) { .category-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    .category-tile { padding:14px; border-radius:18px; background: rgba(255,255,255,.6); cursor:pointer; }
+    .category-tile h3 { margin:0; font-size:1rem; }
+    .category-tile p { margin:6px 0 0 0; font-size:.9rem; opacity:.85; }
+    .detail-wrap { display:none; }
+    .detail-wrap.active { display:block; }
+    .grid-wrap.hidden { display:none; }
+    .back-row { display:flex; align-items:center; gap:10px; margin-bottom:10px; }
+    .back-btn { padding:10px 14px; border-radius:999px; }
+  </style>
+</head>
+
+<body class="men-theme">
+<div class="app-shell">
+
+  <nav>
+    <div class="logo">HairHQ</div>
+
+    <div class="mode-toggle" aria-label="Section toggle">
+      <button class="mode-btn" id="womenBtn" type="button">Women</button>
+      <button class="mode-btn active" id="menBtn" type="button">Men</button>
+    </div>
+
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation" type="button">
+      <span></span><span></span><span></span>
+    </button>
+
+    <div class="nav-links" id="navLinks">
+      <a href="hairinfo.html">Info</a>
+      <a href="hairprofile.html">Hair Profile</a>
+      <a href="hairplan.html">Hair Care Plan</a>
+      <a href="hairchat.html">Style Assist</a>
+    </div>
+  </nav>
+
+  <div class="page-buttons">
+    <button type="button" onclick="window.location.href='hairinfo.html'">Info</button>
+    <button type="button" onclick="window.location.href='hairprofile.html'">Hair Profile</button>
+    <button type="button" onclick="window.location.href='hairplan.html'">Hair Care Plan</button>
+    <button type="button" onclick="window.location.href='hairchat.html'">Style Assist</button>
+  </div>
+
+  <section class="hero">
+    <h1>Hair Info Hub</h1>
+    <p class="muted" id="topIntro">Loading your hair library...</p>
+  </section>
+
+  <main>
+    <section class="card grid-wrap" id="gridWrap">
+      <h2>Learn by topic</h2>
+      <div class="category-grid" id="categoryGrid"></div>
+    </section>
+
+    <section class="card detail-wrap" id="detailWrap">
+      <div class="back-row">
+        <button type="button" class="back-btn" id="backBtn">← Back</button>
+        <h2 id="detailTitle" style="margin:0;">Topic</h2>
+      </div>
+      <p id="detailText">Loading...</p>
+    </section>
+  </main>
+
+</div>
+
+<script>
+  const navToggle = document.getElementById("navToggle");
+  const navLinks = document.getElementById("navLinks");
+  if (navToggle && navLinks) navToggle.addEventListener("click", () => navLinks.classList.toggle("open"));
+
+  const womenBtn = document.getElementById("womenBtn");
+  const menBtn = document.getElementById("menBtn");
+  if (womenBtn) womenBtn.onclick = () => window.location.href = window.location.href.replace("/men/", "/women/");
+  if (menBtn) menBtn.onclick = () => localStorage.setItem("hairMode", "men");
+  localStorage.setItem("hairMode", "men");
+
+  const INFO_API = "http://127.0.0.1:8000/api/info?mode=men";
+
+  const topIntro = document.getElementById("topIntro");
+  const categoryGrid = document.getElementById("categoryGrid");
+  const gridWrap = document.getElementById("gridWrap");
+
+  const detailWrap = document.getElementById("detailWrap");
+  const detailTitle = document.getElementById("detailTitle");
+  const detailText = document.getElementById("detailText");
+  const backBtn = document.getElementById("backBtn");
+
+  const CATEGORIES = [
+    { key: "hair_types_system", title: "Hair Type System & Patterns", blurb: "Straight → wavy → curly → coily + patterns." },
+    { key: "porosity_overview", title: "Porosity", blurb: "How your hair absorbs/holds moisture." },
+    { key: "density_and_width", title: "Density & Strand Width", blurb: "How much hair + how thick each strand is." },
+    { key: "scalp_health", title: "Scalp Health", blurb: "Itchiness, dryness, buildup, irritation." },
+    { key: "dryness_and_moisture", title: "Dryness & Moisture", blurb: "Moisture vs sealing vs hydration habits." },
+    { key: "breakage_vs_shedding", title: "Breakage vs Shedding", blurb: "How to tell the difference + what to do." },
+    { key: "shrinkage_and_elasticity", title: "Shrinkage & Elasticity", blurb: "Why shrinkage happens and what it means." },
+    { key: "washday_basics", title: "Washday Basics", blurb: "Simple structure for wash day success." },
+    { key: "cleansing", title: "Cleansing", blurb: "Shampoo vs co-wash vs clarifying." },
+    { key: "conditioning_and_detangling", title: "Conditioning & Detangling", blurb: "Slip, tools, sections, timing." },
+    { key: "leave_ins_and_sealants", title: "Leave-ins & Sealants", blurb: "What they do and how to layer them." },
+    { key: "styling_approaches", title: "Styling Approaches", blurb: "Hold, definition, volume, low manipulation." },
+    { key: "product_categories", title: "Product Categories", blurb: "Product types and what each is for." },
+    { key: "ingredients_to_know", title: "Ingredients to Know", blurb: "What to look for and what to avoid." },
+    { key: "protective_styling", title: "Protective Styling", blurb: "What counts, how long, and how to care." },
+    { key: "heat_and_chemical_treatments", title: "Heat & Chemical Treatments", blurb: "Heat damage + safer habits." },
+    { key: "length_retention", title: "Length Retention", blurb: "Keep length by preventing breakage." },
+    { key: "nighttime_care", title: "Nighttime Care", blurb: "Protect your style while you sleep." },
+    { key: "common_mistakes", title: "Common Mistakes", blurb: "The top things that cause setbacks." },
+    { key: "building_a_routine", title: "Building a Routine", blurb: "Pick steps that match your lifestyle." }
+  ];
+
+
+  function getJumpKey() {
+  const url = new URL(window.location.href);
+  const qp = (url.searchParams.get("jump") || "").trim();
+  const stored = (localStorage.getItem("infoJumpKey") || "").trim();
+  const jumpKey = qp || stored;
+  if (jumpKey) localStorage.removeItem("infoJumpKey");
+  return jumpKey || null;
+}
+
+// After you render categories, auto-open:
+const jumpKey = getJumpKey();
+if (jumpKey) {
+  const match = CATEGORIES.find(c => c.key === jumpKey);
+  if (match) showDetail(match.title, info[match.key]);
+}
+
+  function showGrid() {
+    detailWrap.classList.remove("active");
+    gridWrap.classList.remove("hidden");
+  }
+
+  function showDetail(title, text) {
+    gridWrap.classList.add("hidden");
+    detailWrap.classList.add("active");
+    detailTitle.textContent = title;
+
+    let html = `<p>${(text && String(text).trim()) ? text : "Content not available yet."}</p>`;
+
+    if (title === "Hair Type System & Patterns") {
+      html += `
+        <img
+          src="../images/curl-diagram.png"
+          alt="Hair type chart showing straight, wavy, curly, and coily patterns"
+          style="max-width:700px;width:100%;border-radius:16px;margin-top:16px;"
+        />
+      `;
+    }
+
+    if (title === "Porosity") {
+      html += `
+        <img
+          src="../images/hairporosity.jpeg"
+          alt="Hair porosity diagram"
+          style="max-width:720px;width:100%;border-radius:16px;margin-top:16px;"
+        />
+      `;
+    }
+
+    detailText.innerHTML = html;
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  backBtn.addEventListener("click", showGrid);
+
+  document.addEventListener("DOMContentLoaded", async () => {
+    try {
+      const res = await fetch(INFO_API);
+      if (!res.ok) throw new Error("Bad response from /api/info");
+      const info = await res.json();
+
+      topIntro.textContent = (info.overview && String(info.overview).trim())
+        ? info.overview
+        : "Use these categories to learn about texture, porosity, scalp, routines, and styling.";
+
+      categoryGrid.innerHTML = "";
+      CATEGORIES.forEach(cat => {
+        const tile = document.createElement("div");
+        tile.className = "category-tile";
+        tile.innerHTML = `<h3>${cat.title}</h3><p>${cat.blurb}</p>`;
+        tile.addEventListener("click", () => showDetail(cat.title, info[cat.key]));
+        categoryGrid.appendChild(tile);
+      });
+
+      showGrid();
+    } catch (err) {
+      console.error(err);
+      topIntro.textContent = "Couldn’t load the hair library. Check the API.";
+      categoryGrid.innerHTML = `<p class="muted">Couldn’t load topics yet.</p>`;
+    }
+  });
+</script>
+
+</body>
+</html>

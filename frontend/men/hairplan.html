@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Your Hair Care Plan (Men)</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+</head>
+<body class="men-theme">
+<div class="app-shell">
+
+  <nav>
+    <div class="logo">HairHQ</div>
+
+    <div class="mode-toggle" aria-label="Section toggle">
+      <button class="mode-btn" id="womenBtn" type="button">Women</button>
+      <button class="mode-btn active" id="menBtn" type="button">Men</button>
+    </div>
+
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation" type="button">
+      <span></span><span></span><span></span>
+    </button>
+
+    <div class="nav-links" id="navLinks">
+      <a href="hairinfo.html">Info</a>
+      <a href="hairprofile.html">Hair Profile</a>
+      <a href="hairplan.html">Hair Care Plan</a>
+      <a href="hairchat.html">Style Assist</a>
+    </div>
+  </nav>
+
+  <div class="page-buttons">
+    <button type="button" onclick="window.location.href='hairinfo.html'">Info</button>
+    <button type="button" onclick="window.location.href='hairprofile.html'">Hair Profile</button>
+    <button type="button" onclick="window.location.href='hairplan.html'">Hair Care Plan</button>
+    <button type="button" onclick="window.location.href='hairchat.html'">Style Assist</button>
+  </div>
+
+  <section class="hero">
+    <h1>Hair Care Plan</h1>
+    <p>Your saved plan appears here. Update your Hair Profile any time to regenerate.</p>
+  </section>
+
+  <main>
+    <section class="card">
+      <h2>Hair Profile Summary</h2>
+      <div class="btn-row" style="justify-content:flex-start; margin-top:10px;">
+        <button class="btn ghost" id="resetPlanBtn" type="button">Reset Plan</button>
+      </div>
+      <p id="profileSummary" style="margin-top:10px; opacity:.85;">Loading…</p>
+    </section>
+
+    <section class="card">
+      <h2>Plan Summary</h2>
+      <p id="planSummary">Loading…</p>
+    </section>
+
+    <section class="card">
+      <h2>Routine</h2>
+      <ul id="routineList"></ul>
+    </section>
+
+    <section class="card">
+      <h2>Recommended Product Types</h2>
+      <ul id="productsList"></ul>
+    </section>
+
+    <section class="card">
+      <h2>Ingredients to Look For</h2>
+      <ul id="ingredientsList"></ul>
+    </section>
+
+    <section class="card">
+      <h2>Avoid / Watch Outs</h2>
+      <ul id="avoidList"></ul>
+    </section>
+  </main>
+
+</div>
+
+<script>
+  const navToggle = document.getElementById("navToggle");
+  const navLinks = document.getElementById("navLinks");
+  if (navToggle && navLinks) navToggle.addEventListener("click", () => navLinks.classList.toggle("open"));
+
+  function getMode() {
+    const path = window.location.pathname.toLowerCase();
+    if (path.includes("/men/")) return "men";
+    if (path.includes("/women/")) return "women";
+    const stored = (localStorage.getItem("hairMode") || "").toLowerCase();
+    return stored === "men" ? "men" : "women";
+  }
+
+  const womenBtn = document.getElementById("womenBtn");
+  const menBtn = document.getElementById("menBtn");
+  const mode = getMode();
+
+  if (womenBtn && menBtn) {
+    womenBtn.classList.remove("active");
+    menBtn.classList.add("active");
+
+    womenBtn.onclick = () => {
+      localStorage.setItem("hairMode", "women");
+      window.location.href = window.location.href.replace("/men/", "/women/");
+    };
+    menBtn.onclick = () => localStorage.setItem("hairMode", "men");
+  }
+
+  function renderList(el, items) {
+    el.innerHTML = "";
+    (items || []).forEach(x => {
+      const li = document.createElement("li");
+      li.textContent = x;
+      el.appendChild(li);
+    });
+  }
+
+  function renderPage() {
+    const mode = getMode();
+    localStorage.setItem("hairMode", mode);
+
+    const profileSummary = document.getElementById("profileSummary");
+    const planSummary = document.getElementById("planSummary");
+    const routineList = document.getElementById("routineList");
+    const productsList = document.getElementById("productsList");
+    const ingredientsList = document.getElementById("ingredientsList");
+    const avoidList = document.getElementById("avoidList");
+
+    const rawProfile = localStorage.getItem(mode + "_hairProfile");
+    const rawPlan = localStorage.getItem(mode + "_hairPlan");
+
+    if (rawProfile) {
+      try {
+        const p = JSON.parse(rawProfile);
+        const bits = [];
+        if (p.hairType) bits.push("Type " + p.hairType);
+        if (p.hairLength) bits.push(p.hairLength);
+        if (p.porosity) bits.push(p.porosity + " porosity");
+        if (p.goals && p.goals.length) bits.push("Goals: " + p.goals.slice(0,2).join(", "));
+        profileSummary.textContent = bits.join(" • ") || "Profile saved";
+      } catch {
+        profileSummary.textContent = "Profile saved";
+      }
+    } else {
+      profileSummary.textContent = "No profile saved yet. Fill out Hair Profile first.";
+    }
+
+    if (!rawPlan) {
+      planSummary.textContent = "No plan saved yet. Go to Hair Profile to generate one.";
+      renderList(routineList, []);
+      renderList(productsList, []);
+      renderList(ingredientsList, []);
+      renderList(avoidList, []);
+      return;
+    }
+
+    try {
+      const plan = JSON.parse(rawPlan);
+      planSummary.textContent = plan.summary || "";
+      renderList(routineList, plan.routine || []);
+      renderList(productsList, plan.products || []);
+      renderList(ingredientsList, plan.ingredients || []);
+      renderList(avoidList, plan.avoid || []);
+    } catch (e) {
+      console.error("Could not parse hairPlan JSON", e);
+      planSummary.textContent = "Could not load plan. Try regenerating from Hair Profile.";
+    }
+  }
+
+  const resetPlanBtn = document.getElementById("resetPlanBtn");
+  if (resetPlanBtn) {
+    resetPlanBtn.addEventListener("click", () => {
+      const mode = localStorage.getItem("hairMode") || "men";
+      const ok = confirm("Reset your saved hair care plan?");
+      if (!ok) return;
+
+      localStorage.removeItem(mode + "_hairPlan");
+      renderPage();
+    });
+  }
+
+  document.addEventListener("DOMContentLoaded", renderPage);
+</script>
+
+</body>
+</html>

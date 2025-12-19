@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Create Your Hair Profile (Men)</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+  <!-- Men theme override (blue) -->
+  <style>
+    body.men-theme { --accent:#2f6fed; --accent-2:#1f53c9; }
+  </style>
+</head>
+
+<body class="men-theme">
+<div class="app-shell">
+
+  <!-- NAV -->
+  <nav>
+    <div class="logo">HairHQ</div>
+
+    <div class="mode-toggle" aria-label="Section toggle">
+      <button class="mode-btn" id="womenBtn" type="button">Women</button>
+      <button class="mode-btn active" id="menBtn" type="button">Men</button>
+    </div>
+
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation" type="button">
+      <span></span><span></span><span></span>
+    </button>
+
+    <div class="nav-links" id="navLinks">
+      <a href="hairinfo.html">Info</a>
+      <a href="hairprofile.html">Hair Profile</a>
+      <a href="hairplan.html">Hair Care Plan</a>
+      <a href="hairchat.html">Style Assist</a>
+    </div>
+  </nav>
+
+  <div class="page-buttons">
+    <button type="button" onclick="window.location.href='hairinfo.html'">Info</button>
+    <button type="button" onclick="window.location.href='hairprofile.html'">Hair Profile</button>
+    <button type="button" onclick="window.location.href='hairplan.html'">Hair Care Plan</button>
+    <button type="button" onclick="window.location.href='hairchat.html'">Style Assist</button>
+  </div>
+
+  <section class="hero">
+    <h1>Create Your Hair Profile (Men)</h1>
+    <p>Answer a few questions so HairHQ can personalize your plan and style suggestions.</p>
+  </section>
+
+  <main>
+    <section class="card">
+      <form id="profileForm">
+        <div class="two-col">
+
+          <div class="field">
+            <label for="hairType">Hair Type / Texture <span class="qmark" data-topic="hair_type">?</span></label>
+            <select id="hairType" name="hairType" required>
+              <option value="">Select…</option>
+              <option value="1A">1A (straight/fine)</option>
+              <option value="1B">1B (straight)</option>
+              <option value="1C">1C (straight/coarse)</option>
+              <option value="2A">2A (wavy)</option>
+              <option value="2B">2B (wavy)</option>
+              <option value="2C">2C (wavy/curly)</option>
+              <option value="3A">3A (curly)</option>
+              <option value="3B">3B (curly)</option>
+              <option value="3C">3C (curly/coily)</option>
+              <option value="4A">4A (coily)</option>
+              <option value="4B">4B (coily)</option>
+              <option value="4C">4C (coily)</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="hairLength">Hair Length <span class="qmark" data-topic="hair_length">?</span></label>
+            <select id="hairLength" name="hairLength" required>
+              <option value="">Select…</option>
+              <option value="short">Short</option>
+              <option value="medium">Medium</option>
+              <option value="long">Long</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="porosity">Porosity <span class="qmark" data-topic="porosity">?</span></label>
+            <select id="porosity" name="porosity">
+              <option value="">Select…</option>
+              <option value="low">Low</option>
+              <option value="medium">Medium</option>
+              <option value="high">High</option>
+              <option value="unsure">Not sure</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="density">Density <span class="qmark" data-topic="density">?</span></label>
+            <select id="density" name="density">
+              <option value="">Select…</option>
+              <option value="low">Low</option>
+              <option value="medium">Medium</option>
+              <option value="high">High</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="scalp">Scalp / Roots <span class="qmark" data-topic="scalp">?</span></label>
+            <select id="scalp" name="scalp">
+              <option value="">Select…</option>
+              <option value="dry">Dry</option>
+              <option value="oily">Oily</option>
+              <option value="balanced">Balanced</option>
+              <option value="itchy">Itchy</option>
+              <option value="flaky">Flaky</option>
+              <option value="sensitive">Sensitive</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="dryness">Dryness Level <span class="qmark" data-topic="dryness">?</span></label>
+            <select id="dryness" name="dryness">
+              <option value="">Select…</option>
+              <option value="rarely_dry">Rarely dry</option>
+              <option value="sometimes_dry">Sometimes dry</option>
+              <option value="often_dry">Often dry</option>
+            </select>
+          </div>
+
+        </div>
+
+        <!-- ISSUES -->
+        <div class="field">
+          <div class="label-row">
+            <label>Main issues / concerns <span class="qmark" data-topic="issues">?</span></label>
+            <span style="opacity:.7;">(choose any that apply)</span>
+          </div>
+          <div class="checks">
+            <label><input type="checkbox" name="issues" value="frizz">Frizz</label>
+            <label><input type="checkbox" name="issues" value="breakage">Breakage</label>
+            <label><input type="checkbox" name="issues" value="shedding">Shedding</label>
+            <label><input type="checkbox" name="issues" value="dryness">Dryness</label>
+            <label><input type="checkbox" name="issues" value="scalp_itch">Scalp itch</label>
+            <label><input type="checkbox" name="issues" value="oiliness">Oiliness</label>
+            <label><input type="checkbox" name="issues" value="flatness">Flat/No volume</label>
+
+            <!-- Men-specific -->
+            <label><input type="checkbox" name="issues" value="receding_hairline">Receding hairline</label>
+            <label><input type="checkbox" name="issues" value="thinning_balding">Thinning/Balding</label>
+            <label><input type="checkbox" name="issues" value="patchy_beard">Patchy beard growth (optional)</label>
+          </div>
+        </div>
+
+        <!-- GOALS -->
+        <div class="field">
+          <div class="label-row">
+            <label>Goals <span class="qmark" data-topic="goals">?</span></label>
+            <span style="opacity:.7;">(choose any)</span>
+          </div>
+          <div class="checks">
+            <label><input type="checkbox" name="goals" value="volume">Volume</label>
+            <label><input type="checkbox" name="goals" value="definition">Definition</label>
+            <label><input type="checkbox" name="goals" value="length_retention">Grow/retain length</label>
+            <label><input type="checkbox" name="goals" value="less_frizz">Less frizz</label>
+            <label><input type="checkbox" name="goals" value="scalp">Healthier scalp</label>
+            <label><input type="checkbox" name="goals" value="clean_cut">Cleaner cut / shape</label>
+          </div>
+        </div>
+
+        <label for="extraDetails">Anything else you want HairHQ to know? (optional)</label>
+        <textarea id="extraDetails" name="extraDetails" placeholder="Ex: I get fades every 2 weeks, I’m growing my hair out, my hairline is my main concern…"></textarea>
+
+        <div class="btn-row">
+          <button class="btn primary" type="submit">Save Profile + Generate Plan</button>
+          <button class="btn secondary" type="button" id="resetProfileBtn">
+            Reset Profile
+          </button>
+
+        </div>
+      </form>
+    </section>
+  </main>
+</div>
+
+<!-- Help Popover (ONLY ONE) -->
+<div class="help-popover" id="helpPopover" aria-hidden="true">
+  <div class="help-popover-card" role="dialog" aria-modal="true" aria-labelledby="helpTitle">
+    <h3 class="help-popover-title" id="helpTitle">Title</h3>
+    <p class="help-popover-text" id="helpText">Definition</p>
+    <div class="help-popover-actions">
+      <button class="help-close-btn" id="helpCloseBtn" type="button">Close</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  const API_BASE = "http://127.0.0.1:8000";
+
+  const navToggle = document.getElementById("navToggle");
+  const navLinks = document.getElementById("navLinks");
+  if (navToggle && navLinks) navToggle.addEventListener("click", () => navLinks.classList.toggle("open"));
+
+  function getMode() {
+    const path = window.location.pathname.toLowerCase();
+    if (path.includes("/men/")) return "men";
+    if (path.includes("/women/")) return "women";
+    const stored = (localStorage.getItem("hairMode") || "").toLowerCase();
+    return stored === "men" ? "men" : "women";
+  }
+
+
+  const womenBtn = document.getElementById("womenBtn");
+  const menBtn = document.getElementById("menBtn");
+
+  if (womenBtn && menBtn) {
+    womenBtn.classList.remove("active");
+    menBtn.classList.add("active");
+    localStorage.setItem("hairMode", "men");
+
+    womenBtn.onclick = () => {
+      localStorage.setItem("hairMode", "women");
+      window.location.href = window.location.href.replace("/men/", "/women/");
+    };
+    menBtn.onclick = () => localStorage.setItem("hairMode", "men");
+  }
+
+  // ================================
+  // Help Popover: DEFINITIONS ONLY
+  // ================================
+  const HELP_DEFS = {
+    hair_type: { title: "Hair type / texture", text: "Your curl pattern (1–4) and sub-type (A–C). This helps predict definition, frizz, and which styles will work best." },
+    hair_length: { title: "Hair length", text: "How long your hair is right now (short/medium/long). Keeps style ideas realistic for your current length." },
+    porosity: { title: "Porosity", text: "How easily your hair absorbs and holds water. Low porosity resists moisture; high porosity absorbs fast but loses moisture quickly." },
+    density: { title: "Density", text: "How much hair you have overall. Affects what styles look full and how much product you need." },
+    scalp: { title: "Scalp / roots", text: "Dry/oily/flaky/itchy/sensitive scalp affects cleansing frequency and what steps to prioritize for comfort and growth." },
+    dryness: { title: "Dryness level", text: "How often your hair feels dry. Helps adjust moisture vs cleansing balance." },
+    issues: { title: "Main issues / concerns", text: "Select what you deal with most (including hairline/thinning). Your plan should directly address these." },
+    goals: { title: "Goals", text: "What you want to achieve (volume, definition, scalp health, clean shape). Guides your routine and style direction." }
+  };
+
+  const pop = document.getElementById("helpPopover");
+  const popTitle = document.getElementById("helpTitle");
+  const popText = document.getElementById("helpText");
+  const closeBtn = document.getElementById("helpCloseBtn");
+
+  function openHelp(topic) {
+    const def = HELP_DEFS[topic] || { title: "Info", text: "More info coming soon." };
+    popTitle.textContent = def.title;
+    popText.textContent = def.text;
+    pop.classList.add("open");
+    pop.setAttribute("aria-hidden", "false");
+  }
+
+  function closeHelp() {
+    pop.classList.remove("open");
+    pop.setAttribute("aria-hidden", "true");
+  }
+
+  // backdrop click closes
+  pop.addEventListener("click", (e) => { if (e.target === pop) closeHelp(); });
+  closeBtn.addEventListener("click", closeHelp);
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape" && pop.classList.contains("open")) closeHelp(); });
+
+  // attach to only the ? icons
+  document.querySelectorAll(".qmark[data-topic]").forEach(el => {
+    el.addEventListener("click", (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      openHelp(el.getAttribute("data-topic"));
+    });
+  });
+
+
+
+// ================================
+// Reset Profile (MEN) — MUST be outside submit
+// ================================
+const resetBtn = document.getElementById("resetProfileBtn");
+
+if (resetBtn) {
+  resetBtn.addEventListener("click", () => {
+    const ok = confirm("Reset your hair profile and start over?");
+    if (!ok) return;
+
+    const mode = getMode();
+
+    // Clear saved data for THIS mode only
+    localStorage.removeItem(mode + "_hairProfile");
+    localStorage.removeItem(mode + "_hairPlan");
+
+    // Reset form UI
+    const formEl = document.getElementById("profileForm");
+    if (formEl) formEl.reset();
+
+    alert("Profile cleared. You can start fresh.");
+  });
+}
+
+
+
+
+  // ================================
+  // Submit (UNCHANGED)
+  // ================================
+  document.getElementById("profileForm").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const mode = getMode();
+
+    const form = e.target;
+    const formData = new FormData(form);
+
+    const issues = formData.getAll("issues");
+    const goals = formData.getAll("goals");
+
+    const profile = {
+      mode,
+      hairType: formData.get("hairType"),
+      hairLength: formData.get("hairLength"),
+      porosity: formData.get("porosity"),
+      density: formData.get("density"),
+      scalp: formData.get("scalp"),
+      dryness: formData.get("dryness"),
+      issues,
+      goals,
+      extraDetails: formData.get("extraDetails") || ""
+    };
+
+    localStorage.setItem(mode + "_hairProfile", JSON.stringify(profile));
+
+    try {
+      const response = await fetch(API_BASE + "/api/hair-plan", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(profile),
+      });
+
+      const data = await response.json();
+      localStorage.setItem(mode + "_hairPlan", JSON.stringify(data));
+      window.location.href = "hairplan.html";
+    } catch (err) {
+      console.error(err);
+      alert("Could not generate plan. Make sure FastAPI is running.");
+    }
+
+
+  });
+</script>
+
+</body>
+</html>

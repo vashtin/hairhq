@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>HairHQ – Style Assist (Women)</title>
+  <link rel="stylesheet" href="../css/style.css">
+
+  <!-- Women theme override (pink) -->
+  <style>
+    body.women-theme { --accent:#e55aa6; --accent-2:#c93a83; }
+    body.women-theme { background: radial-gradient(circle at top left, rgba(229,90,166,.18) 0, rgba(255,246,252,.95) 35%, rgba(255,252,255,.98) 60%, rgba(229,90,166,.08) 100%); }
+    body.women-theme .hero { background: linear-gradient(135deg, rgba(229,90,166,.18), rgba(201,58,131,.06)); }
+    body.women-theme .mode-btn.active { background: var(--accent); }
+    body.women-theme nav .logo { color: var(--accent-2); }
+
+    .btn.ghost { background: rgba(229,90,166,.10); border-color: rgba(229,90,166,.28); }
+    .btn.ghost:hover { background: rgba(229,90,166,.16); }
+
+    .muted { opacity:.8; }
+    .row { display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+    .pill { padding:8px 12px; border-radius:999px; border:1px solid rgba(0,0,0,.12); background: rgba(255,255,255,.7); font-size:.9rem; }
+    .pill.good { border-color: rgba(0, 140, 60, .25); background: rgba(0, 140, 60, .08); }
+    .pill.warn { border-color: rgba(160, 120, 0, .25); background: rgba(160, 120, 0, .08); }
+
+    .chat-log { display:flex; flex-direction:column; gap:10px; margin-top:12px; }
+    .chat-bubble { max-width: 78%; padding: 12px 14px; border-radius: 16px; line-height: 1.4; font-size: .95rem; }
+    .chat-user { align-self: flex-end; background: var(--accent); color: white; border-bottom-right-radius: 6px; }
+    .chat-assistant { align-self: flex-start; background: rgba(0,0,0,.06); border-bottom-left-radius: 6px; }
+    .chat-meta { font-size:.8rem; opacity:.75; margin-top:4px; }
+
+    .thinking { display:inline-flex; align-items:center; gap:6px; opacity:.75; font-style: italic; }
+    .thinking-dots span { animation: blink 1.4s infinite both; font-weight:bold; }
+    .thinking-dots span:nth-child(2) { animation-delay: .2s; }
+    .thinking-dots span:nth-child(3) { animation-delay: .4s; }
+    @keyframes blink { 0%{opacity:.2} 20%{opacity:1} 100%{opacity:.2} }
+
+    .composer { display:flex; flex-direction:column; gap:10px; margin-top:14px; }
+    .composer textarea {
+      width: 100%;
+      resize: vertical;
+      padding: 12px 14px;
+      border-radius: 14px;
+      border: 1px solid rgba(0,0,0,.15);
+      font-size: 1rem;
+      line-height: 1.4;
+      min-height: 70px;
+    }
+    .btn-row { display:flex; gap:10px; justify-content:flex-end; flex-wrap:wrap; }
+    .btn { padding:10px 14px; border-radius:999px; border:1px solid rgba(0,0,0,.15); background: rgba(255,255,255,.7); cursor:pointer; }
+    .btn.primary { background: var(--accent); border-color: rgba(229,90,166,.4); color:white; }
+    .btn:disabled { opacity:.6; cursor:not-allowed; }
+
+    .style-ideas { display:flex; flex-wrap:wrap; gap:10px; margin-top:10px; }
+    .style-idea-btn { padding:10px 12px; border-radius:999px; border:1px solid rgba(0,0,0,.14); background: rgba(255,255,255,.75); cursor:pointer; }
+    .style-actions { margin-top:10px; display:none; }
+    .style-actions.active { display:block; }
+    .action-card { padding:12px; border-radius:16px; background: rgba(0,0,0,.04); border:1px solid rgba(0,0,0,.08); }
+    .action-title { margin:0 0 8px 0; font-size:1rem; }
+    .action-links { display:flex; flex-wrap:wrap; gap:10px; }
+    .action-link {
+      display:inline-flex; align-items:center; justify-content:center;
+      padding:10px 14px; border-radius:999px; text-decoration:none;
+      border:1px solid rgba(0,0,0,.15); background: rgba(255,255,255,.8); color: inherit;
+    }
+  </style>
+</head>
+
+<body class="women-theme">
+<div class="app-shell">
+
+  <nav>
+    <div class="logo">HairHQ</div>
+
+    <div class="mode-toggle" aria-label="Section toggle">
+      <button class="mode-btn active" id="womenBtn" type="button">Women</button>
+      <button class="mode-btn" id="menBtn" type="button">Men</button>
+    </div>
+
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation" type="button">
+      <span></span><span></span><span></span>
+    </button>
+
+    <div class="nav-links" id="navLinks">
+      <a href="hairinfo.html">Info</a>
+      <a href="hairprofile.html">Hair Profile</a>
+      <a href="hairplan.html">Hair Care Plan</a>
+      <a href="hairchat.html">Style Assist</a>
+    </div>
+  </nav>
+
+  <div class="page-buttons">
+    <button type="button" onclick="window.location.href='hairinfo.html'">Info</button>
+    <button type="button" onclick="window.location.href='hairprofile.html'">Hair Profile</button>
+    <button type="button" onclick="window.location.href='hairplan.html'">Hair Care Plan</button>
+    <button type="button" onclick="window.location.href='hairchat.html'">Style Assist</button>
+  </div>
+
+  <section class="hero">
+    <h1>Style Assist</h1>
+    <p class="muted">Ask for hairstyles that match your texture, routine level, and goals.</p>
+  </section>
+
+  <main>
+    <section class="card">
+      <div class="row" style="justify-content:space-between;">
+        <div class="row">
+          <span class="pill" id="profileStatus">Checking profile…</span>
+          <span class="pill muted" id="profileMini" style="display:none;"></span>
+        </div>
+
+        <div class="row">
+          <button class="btn ghost" id="resetChatBtn" type="button">Reset Chat</button>
+        </div>
+      </div>
+
+      <div id="chatLog" class="chat-log"></div>
+
+      <div id="styleIdeasWrap" style="margin-top:12px;">
+        <div class="muted" style="margin-top:6px;">Style ideas will appear here after a reply.</div>
+        <div class="style-ideas" id="styleIdeas"></div>
+
+        <div class="style-actions" id="styleActions">
+          <div class="action-card">
+            <h3 class="action-title" id="selectedStyleTitle">Selected style</h3>
+            <div class="action-links">
+              <a class="action-link" id="seeStyleLink" href="#" target="_blank" rel="noopener">See the style</a>
+              <a class="action-link" id="tutorialLink" href="#" target="_blank" rel="noopener">Watch tutorial</a>
+            </div>
+            <div class="chat-meta muted" style="margin-top:8px;">
+              (Nothing opens until you click one of these.)
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="composer">
+        <textarea id="chatInput" placeholder="Ask about styles… (ex: ‘I want something quick for work’ or ‘what styles work for shoulder-length hair?’)"></textarea>
+        <div class="btn-row">
+          <button class="btn ghost" id="suggestBtn" type="button">Suggest styles</button>
+          <button class="btn primary" id="sendBtn" type="button">Send</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+</div>
+
+<script>
+  const API_BASE = "http://127.0.0.1:8000";
+  const CHAT_API = API_BASE + "/api/hair-chat";
+
+  const navToggle = document.getElementById("navToggle");
+  const navLinks = document.getElementById("navLinks");
+  if (navToggle && navLinks) navToggle.addEventListener("click", () => navLinks.classList.toggle("open"));
+
+  // Mode buttons
+  const womenBtn = document.getElementById("womenBtn");
+  const menBtn = document.getElementById("menBtn");
+  if (womenBtn) womenBtn.onclick = () => localStorage.setItem("hairMode", "women");
+  if (menBtn) menBtn.onclick = () => window.location.href = window.location.href.replace("/women/", "/men/");
+  localStorage.setItem("hairMode", "women");
+
+  // Elements
+  const chatLog = document.getElementById("chatLog");
+  const chatInput = document.getElementById("chatInput");
+  const sendBtn = document.getElementById("sendBtn");
+  const suggestBtn = document.getElementById("suggestBtn");
+
+  const profileStatus = document.getElementById("profileStatus");
+  const profileMini = document.getElementById("profileMini");
+
+  const styleIdeas = document.getElementById("styleIdeas");
+  const styleActions = document.getElementById("styleActions");
+  const selectedStyleTitle = document.getElementById("selectedStyleTitle");
+  const seeStyleLink = document.getElementById("seeStyleLink");
+  const tutorialLink = document.getElementById("tutorialLink");
+
+  let lastStyleDetails = [];
+
+  function addBubble(role, text) {
+    const div = document.createElement("div");
+    div.className = role === "user" ? "chat-bubble chat-user" : "chat-bubble chat-assistant";
+    div.textContent = text;
+    chatLog.appendChild(div);
+    chatLog.scrollTop = chatLog.scrollHeight;
+  }
+
+  function showThinking() {
+    if (document.getElementById("thinkingBubble")) return;
+    const div = document.createElement("div");
+    div.id = "thinkingBubble";
+    div.className = "chat-bubble chat-assistant";
+    div.innerHTML = `
+      <span class="thinking">Stylist is thinking
+        <span class="thinking-dots"><span>.</span><span>.</span><span>.</span></span>
+      </span>
+    `;
+    chatLog.appendChild(div);
+    chatLog.scrollTop = chatLog.scrollHeight;
+  }
+
+  function hideThinking() {
+    const bubble = document.getElementById("thinkingBubble");
+    if (bubble) bubble.remove();
+  }
+
+  function loadHistory(mode) {
+    const raw = localStorage.getItem("hairChatHistory_" + mode);
+    if (!raw) return [];
+    try {
+      const arr = JSON.parse(raw);
+      return Array.isArray(arr) ? arr : [];
+    } catch {
+      return [];
+    }
+  }
+
+  function saveHistory(mode, history) {
+    localStorage.setItem("hairChatHistory_" + mode, JSON.stringify(history));
+  }
+
+  function getSavedProfile(mode) {
+    const raw = localStorage.getItem(mode + "_hairProfile");
+    if (!raw) return null;
+    try { return JSON.parse(raw); } catch { return null; }
+  }
+
+  function getSavedPlan(mode) {
+    const raw = localStorage.getItem(mode + "_hairPlan");
+    if (!raw) return null;
+    try { return JSON.parse(raw); } catch { return null; }
+  }
+
+  function canonicalizeProfile(profile, mode) {
+    if (!profile || typeof profile !== "object") return null;
+    const p = { ...profile };
+
+    if (!p.hair_length && p.hairLength) p.hair_length = p.hairLength;
+    if (!p.hair_type && p.hairType) p.hair_type = p.hairType;
+    if (!p.routine_level && p.routineLevel) p.routine_level = p.routineLevel;
+    if (!p.strand_width && p.strandWidth) p.strand_width = p.strandWidth;
+
+    p.mode = p.mode || mode;
+    return p;
+  }
+
+  function humanize(s) {
+    return String(s || "").replaceAll("_", " ");
+  }
+
+  function setProfileIndicator(profile) {
+    if (profile) {
+      profileStatus.textContent = "Using your profile ✓";
+      profileStatus.classList.add("good");
+      profileStatus.classList.remove("warn");
+
+      const parts = [];
+      if (profile.hair_type) parts.push("Type " + profile.hair_type);
+      if (profile.hair_length) parts.push(humanize(profile.hair_length));
+      if (profile.porosity) parts.push(profile.porosity + " porosity");
+      if (profile.routine_level) parts.push(humanize(profile.routine_level) + " routine");
+      if (profile.goals && profile.goals.length) parts.push("Goals: " + profile.goals.slice(0,2).join(", "));
+
+      profileMini.style.display = "inline-flex";
+      profileMini.textContent = parts.length ? parts.join(" • ") : "Profile saved";
+    } else {
+      profileStatus.textContent = "No profile yet — fill out Hair Profile";
+      profileStatus.classList.add("warn");
+      profileStatus.classList.remove("good");
+      profileMini.style.display = "none";
+    }
+  }
+
+  function clearStyleIdeas() {
+    styleIdeas.innerHTML = "";
+    styleActions.classList.remove("active");
+    lastStyleDetails = [];
+  }
+
+  function findDetailForTitle(title) {
+    const t = String(title || "").trim().toLowerCase();
+    if (!t) return null;
+    for (const d of (lastStyleDetails || [])) {
+      const dt = String((d && d.title) || "").trim().toLowerCase();
+      if (dt && dt === t) return d;
+    }
+    return null;
+  }
+
+  function openLinksForStyle(title) {
+    selectedStyleTitle.textContent = title;
+
+    const d = findDetailForTitle(title);
+    let imgQuery = "";
+    let ytQuery = "";
+
+    if (d && (d.image_search || d.youtube_search)) {
+      imgQuery = String(d.image_search || title).trim();
+      ytQuery = String(d.youtube_search || title).trim();
+    } else {
+      imgQuery = title + " hairstyle";
+      ytQuery = title + " hair tutorial";
+    }
+
+    seeStyleLink.href = "https://www.google.com/search?tbm=isch&q=" + encodeURIComponent(imgQuery);
+    tutorialLink.href = "https://www.youtube.com/results?search_query=" + encodeURIComponent(ytQuery);
+
+    styleActions.classList.add("active");
+    styleActions.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+
+  function renderStyleIdeas(list) {
+    styleIdeas.innerHTML = "";
+    styleActions.classList.remove("active");
+
+    if (!Array.isArray(list) || list.length === 0) return;
+
+    list.slice(0, 10).forEach(name => {
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "style-idea-btn";
+      btn.textContent = name;
+      btn.addEventListener("click", () => openLinksForStyle(name));
+      styleIdeas.appendChild(btn);
+    });
+  }
+
+  async function sendMessage(textOverride) {
+    const mode = "women";
+    const text = (textOverride ?? chatInput.value).trim();
+    if (!text) return;
+
+    sendBtn.disabled = true;
+    suggestBtn.disabled = true;
+
+    let history = loadHistory(mode);
+
+    addBubble("user", text);
+    history.push({ role: "user", content: text });
+    saveHistory(mode, history);
+
+    chatInput.value = "";
+    clearStyleIdeas();
+
+    const rawProfile = getSavedProfile(mode);
+    const profile = canonicalizeProfile(rawProfile, mode);
+    const plan = getSavedPlan(mode);
+
+    const plan_context = plan ? {
+      summary: (plan.summary || ""),
+      routine: Array.isArray(plan.routine) ? plan.routine.join(" | ") : ""
+    } : null;
+
+    const trimmedHistory = history.slice(-10);
+
+    showThinking();
+
+    try {
+      const res = await fetch(CHAT_API, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          message: text,
+          history: trimmedHistory,
+          profile: profile,
+          plan_context: plan_context
+        })
+      });
+
+      const data = await res.json();
+
+      hideThinking();
+
+      const reply = String(data.reply || "").trim();
+      const ideas = data.style_ideas || [];
+      lastStyleDetails = Array.isArray(data.style_details) ? data.style_details : [];
+
+      addBubble("assistant", reply || "No reply returned.");
+      history.push({ role: "assistant", content: reply || "No reply returned." });
+      saveHistory(mode, history);
+
+      renderStyleIdeas(ideas);
+    } catch (err) {
+      console.error(err);
+      hideThinking();
+      addBubble("assistant", "Could not connect to backend. Make sure FastAPI is running.");
+    } finally {
+      sendBtn.disabled = false;
+      suggestBtn.disabled = false;
+      chatInput.focus();
+    }
+  }
+
+  // Enter sends; Shift+Enter new line
+  chatInput.addEventListener("keydown", (e) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      sendMessage();
+    }
+  });
+
+  sendBtn.addEventListener("click", () => sendMessage());
+
+  suggestBtn.addEventListener("click", () => sendMessage(
+    "Suggest 4–6 hairstyle options that fit my hair profile and what usually works for my length + texture. Keep it realistic and give styles I can actually search and learn."
+  ));
+
+  // Reset Chat
+  document.getElementById("resetChatBtn").addEventListener("click", () => {
+    const mode = "women";
+    const ok = confirm("Reset chat for this section?");
+    if (!ok) return;
+
+    localStorage.removeItem("hairChatHistory_" + mode);
+    chatLog.innerHTML = "";
+    clearStyleIdeas();
+
+    addBubble("assistant", "Chat cleared. Ask me for style ideas whenever you’re ready.");
+  });
+
+  document.addEventListener("DOMContentLoaded", () => {
+    const mode = "women";
+    localStorage.setItem("hairMode", mode);
+
+    const rawProfile = getSavedProfile(mode);
+    const profile = canonicalizeProfile(rawProfile, mode);
+    setProfileIndicator(profile);
+
+    const history = loadHistory(mode);
+    history.forEach(m => {
+      if (m && m.role && m.content) addBubble(m.role, m.content);
+    });
+
+    if (history.length === 0) {
+      if (profile) {
+        sendMessage("INIT_CONTEXT");
+      } else {
+        addBubble("assistant", "Tell me what kind of look you want (quick for work, heatless, protective, sleek, etc.). If you filled out Hair Profile, I’ll use it.");
+      }
+    }
+  });
+</script>
+
+</body>
+</html>
